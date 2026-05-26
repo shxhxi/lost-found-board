@@ -1,65 +1,71 @@
-import Image from "next/image";
+import { connection } from 'next/server';
+import { createSupabaseServerClient } from '../lib/supabase/server';
+import ItemsBoard from '../components/items-board';
+import HeaderNav from '../components/header-nav';
+import AccountMenu from '../components/account-menu';
+import type { ItemRow } from '../lib/types';
 
-export default function Home() {
+export default async function HomePage() {
+  await connection();
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from('items')
+    .select(
+      `
+        id,
+        user_id,
+        title,
+        description,
+        item_type,
+        category,
+        location,
+        city,
+        zip_code,
+        event_date,
+        image_url,
+        image_path,
+        status,
+        ai_summary,
+        created_at,
+        updated_at
+      `
+    )
+    .in('status', ['open', 'matched'])
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const items: ItemRow[] = (data ?? []) as ItemRow[];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto w-full max-w-[1800px] px-6 pb-12 pt-6 sm:px-8 xl:px-10 2xl:px-12">
+      <div className="mb-8">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-6">
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+              East Bay Community Board
+            </p>
+
+            <HeaderNav />
+          </div>
+
+          <AccountMenu />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <h1 className="mt-5 bg-gradient-to-r from-sky-600 via-emerald-600 to-amber-500 bg-clip-text text-4xl font-semibold tracking-tight text-transparent sm:text-5xl dark:from-sky-400 dark:via-emerald-400 dark:to-amber-300">
+          Lost But Now Found
+        </h1>
+
+        <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-300">
+          A local lost and found board for Martinez, Concord, Pleasant Hill, Walnut Creek, Lafayette, Orinda, Clayton, Pittsburg, Antioch, and Brentwood.
+        </p>
+      </div>
+
+      <ItemsBoard initialItems={items} />
+    </main>
   );
 }
