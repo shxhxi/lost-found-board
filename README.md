@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lost But Now Found
 
-## Getting Started
+Lost But Now Found is a full-stack lost and found web application built for the East Bay Area. It allows users to sign in with Google, post lost or found items, upload item photos, search listings, submit claims, and manage their own posts.
 
-First, run the development server:
+This app is limited to selected East Bay cities and ZIP codes so the board stays local and relevant.
+
+## Features
+
+- Google sign-in with Supabase Auth
+- Report lost and found items
+- Upload item images with Supabase Storage
+- Search by title, city, ZIP code, category, or location
+- Filter by item type and category
+- Submit claims for posted items
+- Manage your own posts from the My Items page
+- Review incoming claims from the Claims page
+- AI-generated summaries for item listings
+- Light / Dark / System theme support
+- East Bay city and ZIP code restrictions
+
+## East Bay Service Area
+
+This app currently supports these East Bay cities:
+
+- Martinez
+- Concord
+- Pleasant Hill
+- Walnut Creek
+- Lafayette
+- Orinda
+- Clayton
+- Pittsburg
+- Antioch
+- Brentwood
+
+## Tech Stack
+
+- **Frontend:** Next.js 16, React 19, TypeScript
+- **Styling:** Tailwind CSS
+- **Authentication:** Supabase Auth with Google OAuth
+- **Database:** Supabase Postgres
+- **Storage:** Supabase Storage
+- **Notifications:** Sonner
+- **Email:** Resend
+- **AI:** DeepSeek API
+- **Deployment:** Vercel
+
+## Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/shxhxi/lost-found-board.git
+cd lost-found-board
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create a `.env.local` file
+
+Add the following environment variables:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_ADMIN_EMAIL=your_admin_email
+
+RESEND_API_KEY=your_resend_api_key
+DEEPSEEK_API_KEY=your_deepseek_api_key
+```
+
+### 4. Set up Supabase
+
+You need to:
+
+- create a Supabase project
+- enable Google OAuth
+- configure your redirect URLs
+- create the required database tables
+- create the storage bucket for item photos
+- apply the Row Level Security policies
+
+### 5. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
 
-## Learn More
+### Homepage / Board
+![Homepage](./screenshots/homepage.png)
 
-To learn more about Next.js, take a look at the following resources:
+### Report Item Page
+![Report Item Page](./screenshots/report-page.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### My Items Page
+![My Items Page](./screenshots/my-items.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Claims Page
+![Claims Page](./screenshots/claims-page.png)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## How It Works
+- A user signs in with Google
+- The user creates a lost or found post
+- The item is saved in Supabase
+- The user can optionally upload an image
+- The app can generate an AI summary for the item
+- Other signed-in users can submit claims
+- The item owner can review claims and manage the post
