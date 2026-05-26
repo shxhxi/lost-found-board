@@ -31,7 +31,7 @@ function WrenchIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4"
+      className="h-3.5 w-3.5"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.8"
@@ -252,7 +252,7 @@ export default function AccountMenu() {
   };
 
   if (!ready) {
-    return <div className="h-11 w-28" />;
+    return <div className="h-11 w-20" />;
   }
 
   return (
@@ -267,19 +267,17 @@ export default function AccountMenu() {
         className="inline-flex h-11 items-center gap-3 rounded-xl border border-zinc-300/80 bg-white/85 px-3 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900/85 dark:hover:bg-zinc-800"
       >
         {user ? (
-          <>
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt={user.email ?? 'Profile'}
-                className="h-8 w-8 rounded-lg object-cover ring-1 ring-zinc-200 dark:ring-zinc-700"
-              />
-            ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-sm font-bold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
-                {emailInitial}
-              </div>
-            )}
-          </>
+          avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={user.email ?? 'Profile'}
+              className="h-8 w-8 rounded-lg object-cover ring-1 ring-zinc-200 dark:ring-zinc-700"
+            />
+          ) : (
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-sm font-bold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
+              {emailInitial}
+            </div>
+          )
         ) : (
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
             <UserIcon />
@@ -302,40 +300,23 @@ export default function AccountMenu() {
         }`}
       >
         <div className="rounded-lg px-3 py-3">
-          <div className="flex items-start gap-3">
-            {user ? (
-              avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt={user.email ?? 'Profile'}
-                  className="h-10 w-10 rounded-lg object-cover ring-1 ring-zinc-200 dark:ring-zinc-700"
-                />
-              ) : (
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-sm font-bold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
-                  {emailInitial}
-                </div>
-              )
-            ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-                <UserIcon />
-              </div>
-            )}
-
-            <div className="min-w-0 flex-1">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
               <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {displayName}
               </p>
-              <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
-                {user?.email ?? 'Not signed in'}
-              </p>
 
               {isAdmin ? (
-                <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
+                <div className="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
                   <WrenchIcon />
                   Admin
                 </div>
               ) : null}
             </div>
+
+            <p className="mt-1 truncate text-sm text-zinc-500 dark:text-zinc-400">
+              {user?.email ?? 'Not signed in'}
+            </p>
           </div>
         </div>
 

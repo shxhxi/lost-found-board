@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '../../lib/supabase/server';
 import MyItemsManager from '../../components/my-items-manager';
@@ -47,16 +46,9 @@ export default async function MyItemsPage() {
   const items: ItemRow[] = (data ?? []) as ItemRow[];
 
   return (
-    <main className="mx-auto w-full max-w-[1800px] px-6 py-12 sm:px-8 xl:px-10 2xl:px-12">
+    <main className="mx-auto w-full max-w-[1800px] px-6 py-8 sm:px-8 xl:px-10 2xl:px-12">
       <div className="mb-8">
-        <Link
-          href="/"
-          className="text-sm text-zinc-500 transition hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-        >
-          ← Back to Board
-        </Link>
-
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
           My East Bay Items
         </h1>
 

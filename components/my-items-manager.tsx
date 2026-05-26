@@ -480,7 +480,7 @@ export default function MyItemsManager({
                           setEditForm((prev) => ({
                             ...prev,
                             city: nextCity,
-                            zip_code: nextZips.includes(prev.zip_code)
+                            zip_code: nextZips.some((zip) => zip === prev.zip_code)
                               ? prev.zip_code
                               : nextZips[0] ?? '',
                           }));

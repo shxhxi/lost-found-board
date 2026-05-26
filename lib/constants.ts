@@ -29,12 +29,14 @@ export const EAST_BAY_CITIES = Object.keys(
   EAST_BAY_SERVICE_AREA
 ) as Array<keyof typeof EAST_BAY_SERVICE_AREA>;
 
-export function getZipOptionsForCity(city: string) {
+export function getZipOptionsForCity(city: string): string[] {
   if (!city || !(city in EAST_BAY_SERVICE_AREA)) {
     return [];
   }
 
-  return [...EAST_BAY_SERVICE_AREA[city as keyof typeof EAST_BAY_SERVICE_AREA]];
+  return [
+    ...EAST_BAY_SERVICE_AREA[city as keyof typeof EAST_BAY_SERVICE_AREA],
+  ] as string[];
 }
 
 export const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
